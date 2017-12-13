@@ -1,6 +1,17 @@
 
 version: 2
 jobs:
+  electron-linux-arm64-test:
+    docker:
+      - image: multiarch/ubuntu-core:arm64-xenial
+    resource_class: 2xlarge
+    steps:
+      - run: lsb-release -a
+      - run: uname -a
+      - run: wget https://github.com/electron/electron/releases/download/v1.8.2-beta.3/electron-v1.8.2-beta.3-linux-arm64.zip
+      - run: unzip electron-v1.8.2-beta.3-linux-arm64.zip
+      - run: cd electron-v1.8.2-beta.3-linux-arm64
+      - run: electron --version
   electron-linux-arm:
     docker:
       - image: electronbuilds/electron:0.0.4
@@ -327,15 +338,18 @@ jobs:
 
 workflows:
   version: 2
-  build-arm:
+  test-arm64:
     jobs:
-      - electron-linux-arm
-  build-arm64:
-    jobs:
-      - electron-linux-arm64
-  build-ia32:
-    jobs:
-      - electron-linux-ia32
-  build-x64:
-    jobs:
-      - electron-linux-x64
+      - electron-linux-arm64-test
+  # build-arm:
+  #  jobs:
+  #    - electron-linux-arm
+  # build-arm64:
+  #  jobs:
+  #    - electron-linux-arm64
+  # build-ia32:
+  #  jobs:
+  #    - electron-linux-ia32
+  # build-x64:
+  #  jobs:
+  #    - electron-linux-x64
