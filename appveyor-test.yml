@@ -4,6 +4,8 @@ skip_branch_with_pr: true
 image: libcc-20core
 environment:
   DISABLE_CRASH_REPORTER_TESTS: true
+  MOCHA_FILE: test-results.xml
+  MOCHA_REPORTER: mocha-junit-reporter
   matrix:
   - TARGET_ARCH: ia32
   - TARGET_ARCH: x64
@@ -35,8 +37,6 @@ build_script:
     }
 test_script:
 - ps: >-
-    $env:MOCHA_FILE = "test-results.xml"
-    $env:MOCHA_REPORTER = "mocha-junit-reporter"
     python script\test.py --ci --rebuild_native_modules
     if ($? -ne 'True') {
       throw "Tests failed with exit code $?"
