@@ -3,7 +3,7 @@ version: 2
 jobs:
   electron-linux-arm64-test:
     docker:
-      - image: multiarch/ubuntu-core:arm64-xenial
+      - image: show0k/miniconda-armv7
     resource_class: 2xlarge
     steps:
       - run: lsb-release -a
