@@ -4,7 +4,8 @@ jobs:
   electron-linux-arm64-test:
     docker:
       - image: ubuntu:16.04
-      - image: resin/armv7hf-debian
+      - image: show0k/miniconda-armv7
+        command: "/bin/sh ls /usr/bin"
     resource_class: 2xlarge
     steps:
       - run: cross-build-start
