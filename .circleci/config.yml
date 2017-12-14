@@ -3,13 +3,10 @@ version: 2
 jobs:
   electron-linux-arm64-test:
     docker:
-      - image: ubuntu:16.04
       - image: resin/armv7hf-debian-qemu
         command: /bin/bash
     resource_class: 2xlarge
     steps:
-      - run: apt-get install lsb-release
-      - run: lsb_release -a
       - run: uname -a
       - run: wget https://github.com/electron/electron/releases/download/v1.8.2-beta.3/electron-v1.8.2-beta.3-linux-armv7l.zip
       - run: unzip electron-v1.8.2-beta.3-linux-armv7l.zip
