@@ -4,8 +4,8 @@ jobs:
   electron-linux-arm64-test:
     docker:
       - image: ubuntu:16.04
-      - image: show0k/miniconda-armv7
-        command: /usr/bin/cross-build-start
+      - image: resin/armv7hf-debian-qemu
+        command: /bin/bash
     resource_class: 2xlarge
     steps:
       - run: apt-get install lsb-release
