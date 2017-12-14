@@ -7,7 +7,7 @@ jobs:
       - image: show0k/miniconda-armv7
     resource_class: 2xlarge
     steps:
-      - run: [ "cross-build-start" ]
+      - run: cross-build-start
       - run: apt-get install lsb-release
       - run: lsb_release -a
       - run: uname -a
@@ -15,7 +15,7 @@ jobs:
       - run: unzip electron-v1.8.2-beta.3-linux-armv7l.zip
       - run: cd electron-v1.8.2-beta.3-linux-armv7l
       - run: electron --version
-      - run: [ "cross-build-end" ]
+      - run: cross-build-end
   electron-linux-arm:
     docker:
       - image: electronbuilds/electron:0.0.4
