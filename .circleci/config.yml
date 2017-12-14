@@ -3,7 +3,21 @@ version: 2
 jobs:
   electron-linux-arm64-test:
     docker:
-      - image: show0k/miniconda-armv7
+      - image: ubuntu:16.04
+      - image: multiarch/qemu-user-static:register
+        command: [--reset]
+      - image: multiarch/ubuntu-core:arm64-xenial
+    resource_class: 2xlarge
+    steps:
+      - run: lsb-release -a
+      - run: uname -a
+      - run: wget https://github.com/electron/electron/releases/download/v1.8.2-beta.3/electron-v1.8.2-beta.3-linux-arm64.zip
+      - run: unzip electron-v1.8.2-beta.3-linux-arm64.zip
+      - run: cd electron-v1.8.2-beta.3-linux-arm64
+      - run: electron --version
+  electron-linux-arm64-test2:
+    docker:
+      - image: ubuntu:16.04
     resource_class: 2xlarge
     steps:
       - run: lsb-release -a
@@ -341,6 +355,7 @@ workflows:
   test-arm64:
     jobs:
       - electron-linux-arm64-test
+      - electron-linux-arm64-test2
   # build-arm:
   #  jobs:
   #    - electron-linux-arm
