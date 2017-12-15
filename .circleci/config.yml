@@ -342,7 +342,8 @@ workflows:
     jobs:
       - electron-linux-arm
       - electron-linux-arm-test:
-          requires: electron-linux-arm
+          requires:
+            - electron-linux-arm
 
   # build-arm64:
   #  jobs:
