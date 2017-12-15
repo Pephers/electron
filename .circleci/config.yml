@@ -67,8 +67,12 @@ jobs:
     steps:
       - attach_workspace:
           at: /tmp/workspace
-      - run: ls /tmp/workspace
-      - run: docker run -it --rm electronbuilds/electronarm7:0.0.1
+      - run:
+          name: Test in ARM docker container
+          command: |
+            docker run -it \
+            --mount type=bind,source=/tmp/workspace,target=/tmp/workspace \
+            --rm electronbuilds/electronarm7:0.0.1
   electron-linux-arm64:
     docker:
       - image: electronbuilds/electron:0.0.4
