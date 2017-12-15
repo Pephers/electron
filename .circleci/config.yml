@@ -3,14 +3,8 @@ version: 2
 jobs:
   electron-linux-arm64-test:
     machine: true
-    resource_class: 2xlarge
     steps:
-      - run: docker run -it --rm show0k/miniconda-armv7 /bin/bash
-      - run: uname -a
-      - run: wget https://github.com/electron/electron/releases/download/v1.8.2-beta.3/electron-v1.8.2-beta.3-linux-armv7l.zip
-      - run: unzip electron-v1.8.2-beta.3-linux-armv7l.zip
-      - run: cd electron-v1.8.2-beta.3-linux-armv7l
-      - run: electron --version
+      - run: docker run -it --rm electronbuilds/electronarm7:0.0.1
   electron-linux-arm:
     docker:
       - image: electronbuilds/electron:0.0.4
