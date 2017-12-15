@@ -38,6 +38,7 @@ build_script:
 test_script:
 - ps: >-
     python script\test.py --ci --rebuild_native_modules
+
     if ($? -ne 'True') {
       throw "Tests failed with exit code $?"
     } else {
@@ -45,7 +46,9 @@ test_script:
       $wc.UploadFile("https://windows-ci.electronjs.org/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\test-results.xml))
       "Tests succeeded."
     }
+
     python script\verify-ffmpeg.py
+
     if ($? -ne 'True') {
       throw "Verify ffmpeg failed with exit code $?"
     } else {
