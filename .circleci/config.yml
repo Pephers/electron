@@ -3,7 +3,7 @@ version: 2
 jobs:
   electron-linux-arm64-test:
     machine: true
-  resource_class: 2xlarge
+    resource_class: 2xlarge
     steps:
       - run: docker run -it --rm show0k/miniconda-armv7 /bin/bash
       - run: uname -a
