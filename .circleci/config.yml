@@ -58,12 +58,15 @@ jobs:
              else
                 echo 'Skipping upload distribution because build is not for release'
              fi
+      - run:
+          name: Zip out directory
+          command: zip -r electron.zip out/D
       - persist_to_workspace:
           root: /home/builduser
           paths:
             - project
       - store_artifacts:
-          path: out
+          path: electron.zip
   electron-linux-arm-test:
     machine: true
     steps:
