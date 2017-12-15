@@ -62,6 +62,8 @@ jobs:
           root: /home/builduser
           paths:
             - project
+      - store_artifacts:
+          path: out
   electron-linux-arm-test:
     machine: true
     steps:
