@@ -1,16 +1,6 @@
 
 version: 2
 jobs:
-  electron-linux-arm64-test:
-    machine: true
-    steps:
-      - run:
-         name: 'Run ARM docker container'
-         command: |
-            docker run --privileged --name electron-test -dit electronbuilds/electronarm7:0.0.1 /bin/bash
-            docker exec -it --privileged electron-test /bin/bash
-            uname -a
-            exit
   electron-linux-arm:
     docker:
       - image: electronbuilds/electron:0.0.4
@@ -68,6 +58,16 @@ jobs:
              else
                 echo 'Skipping upload distribution because build is not for release'
              fi
+      - persist_to_workspace:
+          root: /home/builduser
+          paths: project/*
+  electron-linux-arm-test:
+    machine: true
+    steps:
+      - attach_workspace:
+          at: /tmp/workspace
+      - run: ls /tmp/workspace
+      - run: docker run -it --rm electronbuilds/electronarm7:0.0.1
   electron-linux-arm64:
     docker:
       - image: electronbuilds/electron:0.0.4
@@ -337,12 +337,12 @@ jobs:
 
 workflows:
   version: 2
-  test-arm64:
+  build-arm:
     jobs:
-      - electron-linux-arm64-test
-  # build-arm:
-  #  jobs:
-  #    - electron-linux-arm
+      - electron-linux-arm
+      - electron-linux-arm-test:
+          requires: electron-linux-arm
+
   # build-arm64:
   #  jobs:
   #    - electron-linux-arm64
