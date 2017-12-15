@@ -60,7 +60,8 @@ jobs:
              fi
       - persist_to_workspace:
           root: /home/builduser
-          paths: project/*
+          paths:
+            - project
   electron-linux-arm-test:
     machine: true
     steps:
