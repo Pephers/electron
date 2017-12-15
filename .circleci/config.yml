@@ -4,10 +4,13 @@ jobs:
   electron-linux-arm64-test:
     machine: true
     steps:
-      - run: docker run --privileged --name electron-test -dit electronbuilds/electronarm7:0.0.1 /bin/bash
-      - run: docker exec -it --privileged electron-test /bin/bash
-      - run: uname -a
-      - run: exit
+      - run:
+         name: 'Run ARM docker container'
+         command: |
+            docker run --privileged --name electron-test -dit electronbuilds/electronarm7:0.0.1 /bin/bash
+            docker exec -it --privileged electron-test /bin/bash
+            uname -a
+            exit
   electron-linux-arm:
     docker:
       - image: electronbuilds/electron:0.0.4
