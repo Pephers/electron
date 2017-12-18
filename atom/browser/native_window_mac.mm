@@ -1174,6 +1174,82 @@ bool NativeWindowMac::IsMinimized() {
   return [window_ isMiniaturized];
 }
 
+void NativeWindowMac::SetTitleBarStyle(const std::string& title_bar_style_) {
+  TitleBarStyle title_bar_style;
+
+  if (title_bar_style_ == "hidden") {
+    title_bar_style = atom::NativeWindowMac::HIDDEN;
+  } else if (title_bar_style_ == "hidden-inset" ||  // TODO(kevinsawicki): Remove in 2.0, deprecate before then with warnings
+             title_bar_style_ == "hiddenInset") {
+    title_bar_style = atom::NativeWindowMac::HIDDEN_INSET;
+  } else if (title_bar_style_ == "customButtonsOnHover") {
+    title_bar_style = atom::NativeWindowMac::CUSTOM_BUTTONS_ON_HOVER;
+  } else {
+    title_bar_style = atom::NativeWindowMac::NORMAL;
+  }
+
+  // NSUInteger styleMask = NSTitledWindowMask;
+  // if (title_bar_style == CUSTOM_BUTTONS_ON_HOVER &&
+  //     base::mac::IsAtLeastOS10_10() &&
+  //     (!useStandardWindow || transparent() || !has_frame())) {
+  //   styleMask = NSFullSizeContentViewWindowMask;
+  // }
+  // if (minimizable) {
+  //   styleMask |= NSMiniaturizableWindowMask;
+  // }
+  // if (closable) {
+  //   styleMask |= NSClosableWindowMask;
+  // }
+  if (title_bar_style != NORMAL) {
+    // The window without titlebar is treated the same with frameless window.
+    set_has_frame(false);
+  }
+  // if (!useStandardWindow || transparent() || !has_frame()) {
+  //   styleMask |= NSTexturedBackgroundWindowMask;
+  // }
+  // if (resizable) {
+  //   styleMask |= NSResizableWindowMask;
+  // }
+
+  if (transparent()) {
+    // Setting the background color to clear will also hide the shadow.
+    [window_ setBackgroundColor:[NSColor clearColor]];
+  }
+
+  if (transparent() || !has_frame()) {
+    if (base::mac::IsAtLeastOS10_10()) {
+      // Don't show title bar.
+      [window_ setTitlebarAppearsTransparent:YES];
+      [window_ setTitleVisibility:NSWindowTitleHidden];
+    }
+    // Remove non-transparent corners, see http://git.io/vfonD.
+    [window_ setOpaque:NO];
+  }
+
+  // We will manage window's lifetime ourselves.
+  [window_ setReleasedWhenClosed:NO];
+
+  // Hide the title bar background
+  if (title_bar_style != NORMAL) {
+    if (base::mac::IsAtLeastOS10_10()) {
+      [window_ setTitlebarAppearsTransparent:YES];
+    }
+  }
+
+  // Hide the title bar.
+  if (title_bar_style == HIDDEN_INSET) {
+    if (base::mac::IsAtLeastOS10_10()) {
+      base::scoped_nsobject<NSToolbar> toolbar(
+          [[NSToolbar alloc] initWithIdentifier:@"titlebarStylingToolbar"]);
+      [toolbar setShowsBaselineSeparator:NO];
+      [window_ setToolbar:toolbar];
+    } else {
+      [window_ enableWindowButtonsOffset];
+      [window_ setWindowButtonsOffset:NSMakePoint(12, 10)];
+    }
+  }
+}
+
 void NativeWindowMac::SetFullScreen(bool fullscreen) {
   if (fullscreen == IsFullscreen())
     return;

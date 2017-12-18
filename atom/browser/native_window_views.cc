@@ -491,6 +491,10 @@ bool NativeWindowViews::IsMinimized() {
   return window_->IsMinimized();
 }
 
+void NativeWindowViews::SetTitleBarStyle(const std::string& title_bar_style_) {
+  window_->SetTitleBarStyle(title_bar_style_);
+}
+
 void NativeWindowViews::SetFullScreen(bool fullscreen) {
   if (!IsFullScreenable())
     return;

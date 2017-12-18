@@ -68,6 +68,7 @@ class NativeWindowViews : public NativeWindow,
   void Minimize() override;
   void Restore() override;
   bool IsMinimized() override;
+  void SetTitleBarStyle(const std::string& title_bar_style_) override;
   void SetFullScreen(bool fullscreen) override;
   bool IsFullscreen() const override;
   void SetBounds(const gfx::Rect& bounds, bool animate) override;

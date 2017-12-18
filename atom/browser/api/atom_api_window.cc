@@ -417,6 +417,10 @@ bool Window::IsMinimized() {
   return window_->IsMinimized();
 }
 
+void Window::SetTitleBarStyle(const std::string& title_bar_style_) {
+  window_->SetTitleBarStyle(title_bar_style_);
+}
+
 void Window::SetFullScreen(bool fullscreen) {
   window_->SetFullScreen(fullscreen);
 }
@@ -1014,6 +1018,7 @@ void Window::BuildPrototype(v8::Isolate* isolate,
       .SetMethod("minimize", &Window::Minimize)
       .SetMethod("restore", &Window::Restore)
       .SetMethod("isMinimized", &Window::IsMinimized)
+      .SetMethod("setTitleBarStyle", &Window::SetTitleBarStyle)
       .SetMethod("setFullScreen", &Window::SetFullScreen)
       .SetMethod("isFullScreen", &Window::IsFullscreen)
       .SetMethod("setAspectRatio", &Window::SetAspectRatio)

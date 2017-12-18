@@ -118,6 +118,7 @@ class Window : public mate::TrackableObject<Window>,
   void Minimize();
   void Restore();
   bool IsMinimized();
+  void SetTitleBarStyle(const std::string& title_bar_style_);
   void SetFullScreen(bool fullscreen);
   bool IsFullscreen();
   void SetBounds(const gfx::Rect& bounds, mate::Arguments* args);
